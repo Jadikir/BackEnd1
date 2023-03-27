@@ -10,6 +10,7 @@ const User = sequelize.define('User',{
 
 const Zakaz  = sequelize.define('Zakaz',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type: DataTypes.STRING, allowNull: false},
     id_Zakazchika:{type: DataTypes.INTEGER, allowNull: false},
     id_Ispolnitelya:{type: DataTypes.INTEGER, allowNull: false},
     Status:{type: DataTypes.ENUM("1","2","0"), defaultValue:"0"},

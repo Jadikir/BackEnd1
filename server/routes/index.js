@@ -1,5 +1,5 @@
 const Router = require('express')
-const router =new Router()
+const router = new Router()
 const userRouter = require('./userRouter')
 const typeRouter = require('./typeRouter')
 const modelRouter = require('./modelRouter')
