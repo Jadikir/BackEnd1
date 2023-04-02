@@ -1,6 +1,5 @@
 const {Zakaz, User} = require('../models/models')
 const  ApiError = require('../error/ApiError')
-const fs = require('fs');
 
 class ZakazController {
 
@@ -26,19 +25,13 @@ class ZakazController {
                 else if(name && !price){
                         zakaz = await Zakaz.findAndCountAll({where: {name},limit,offset})}
                 else if(!name && price){
-                        zakaz = await Zakaz.findAndCountAll({where: {author},limit,offset})}
+                        zakaz = await Zakaz.findAndCountAll({where: {price},limit,offset})}
                 else if(name && price){
-                        zakaz = await Zakaz.findAndCountAll({where: {typeId},limit,offset})}
-                else if(name && !author && typeId){
-                        zakaz = await Zakaz.findAndCountAll({where: {name,typeId},limit,offset})}
-                else if(!name && author && typeId){
-                        zakaz = await Zakaz.findAndCountAll({where: {author,typeId},limit,offset})}
-                else if(name && author && !typeId){
-                        zakaz = await Zakaz.findAndCountAll({where: {name,author},limit,offset})}
-                else if(name && author && typeId){
-                        zakaz = await Zakaz.findAndCountAll({where: {name,author,typeId},limit,offset})}
+                        zakaz = await Zakaz.findAndCountAll({where: {name, price},limit,offset})}
+
                 return res.json(zakaz)
         }
+
         async del(req,res,next) {
                 try{
                         await Zakaz.destroy( {

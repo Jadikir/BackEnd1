@@ -1,8 +1,6 @@
 const {Otzyv} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
-
-
 class OtzyvController{
     async create(req,res){
         const {Soderjanie} = req.body
@@ -24,4 +22,5 @@ class OtzyvController{
         }
     }
 }
+
 module.exports = new OtzyvController()

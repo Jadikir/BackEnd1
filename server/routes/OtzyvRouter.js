@@ -7,5 +7,4 @@ router.post('/', OtzyvController.create)
 router.get('/', OtzyvController.getAll)
 router.delete('/', OtzyvController.del)
 
-
 module.exports = router
