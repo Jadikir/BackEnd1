@@ -11,28 +11,22 @@ const User = sequelize.define('User',{
 const Zakaz  = sequelize.define('Zakaz',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     name:{type: DataTypes.STRING, allowNull: false},
-    id_Zakazchika:{type: DataTypes.INTEGER, allowNull: false},
-    id_Ispolnitelya:{type: DataTypes.INTEGER, allowNull: false},
     Status:{type: DataTypes.ENUM("1","2","0"), defaultValue:"0"},
     price:{type: DataTypes.INTEGER, defaultValue:0},
     description:{type: DataTypes.STRING, defaultValue:"Описание не добавлено(("},
 })
 const Chat  = sequelize.define('Chat',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    id_Zakazchika:{type: DataTypes.INTEGER, allowNull: false},
-    id_Ispolnitelya:{type: DataTypes.INTEGER, allowNull: false},
     Text:{type: DataTypes.STRING,allowNull: false},
 })
 
 
 const Otzyv  = sequelize.define('Otzyv',{
-id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    id_Komu:{type: DataTypes.INTEGER, allowNull: false}, id_Oy_Kogo:{type: DataTypes.INTEGER, allowNull: false},
+    id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     Soderjanie:{type: DataTypes.STRING,defaultValue:"Привет, я твой единственный зритель"},
 })
 const userWallet  = sequelize.define('user_wallet',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    id_User:{type: DataTypes.INTEGER,allowNull: false},
     Sushki:{type: DataTypes.INTEGER, allowNull: false},
 })
 
