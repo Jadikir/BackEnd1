@@ -27,7 +27,7 @@ const Otzyv  = sequelize.define('Otzyv',{
 })
 const userWallet  = sequelize.define('user_wallet',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-    Sushki:{type: DataTypes.INTEGER, allowNull: false},
+    Sushki:{type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
 })
 
 User.hasOne(userWallet)

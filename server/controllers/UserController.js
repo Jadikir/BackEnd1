@@ -1,7 +1,8 @@
 const ApiError = require('../Error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {user, type} = require('../models/models')
+const {user, type, userWallet} = require('../models/models')
+
 
 const generateJwt = (id, email, phoneNumber, role) => {
     return jwt.sign(
@@ -24,6 +25,7 @@ class UserController{
         }
         const hashPas = await bcrypt.hash(password, 5)
         const User = await user.create({email, role, password: hashPas})
+        const wallet = await userWallet.create({Id_user: User.id})
         const token = generateJwt(User.id, User.email,  User.role)
         return res.json({token})
     }

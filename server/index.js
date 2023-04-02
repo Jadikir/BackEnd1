@@ -22,10 +22,10 @@ app.use('/api', router)
 app.use(errorHandler)//Обработка ошибок, всегда последний из Use
 
 
-
 app.get('/',(req , res)=>{
     res.status(200).json({message:"jl"})
 })
+
 const start= async ()=>{
     try{
        await sequelize.authenticate()
