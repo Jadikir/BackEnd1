@@ -1,4 +1,4 @@
-const {Otzyv} = require('../models/models')
+const {Otzyv, Chat} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class OtzyvController{
@@ -14,9 +14,12 @@ class OtzyvController{
     }
     async del(req,res,next) {
         try{
+            const {id} = req.body
             await Otzyv.destroy( {
-                where:{id:req.body}
-            })}
+                where:{id:id}
+            })
+            return res.json()
+        }
         catch (e){
             next(ApiError.badRequest("Something wrong"))
         }

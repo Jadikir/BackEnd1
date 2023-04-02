@@ -14,9 +14,12 @@ class ChatController{
     }
     async del(req,res,next) {
         try{
+            const {id} = req.body
             await Chat.destroy( {
-                where:{id:req.body}
-            })}
+                where:{id:id}
+            })
+        return res.json()
+        }
         catch (e){
             next(ApiError.badRequest("Something wrong"))
         }

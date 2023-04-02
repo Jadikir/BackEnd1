@@ -15,11 +15,11 @@ const Zakaz  = sequelize.define('Zakaz',{
     price:{type: DataTypes.INTEGER, defaultValue:0},
     description:{type: DataTypes.STRING, defaultValue:"Описание не добавлено(("},
 })
+
 const Chat  = sequelize.define('Chat',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     Text:{type: DataTypes.STRING,allowNull: false},
 })
-
 
 const Otzyv  = sequelize.define('Otzyv',{
     id:{type: DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
