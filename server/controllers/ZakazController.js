@@ -1,4 +1,4 @@
-const {Zakaz, User} = require('../models/models')
+const {Zakaz} = require('../models/models')
 const  ApiError = require('../error/ApiError')
 
 class ZakazController {
@@ -7,7 +7,8 @@ class ZakazController {
                 try {
 
                         const {name,price,description} = req.body
-                        const zakaz = await Zakaz.create({name,price,description})
+                        let UserId = req.user.id
+                        const zakaz = await Zakaz.create({name,price,description,UserId})
                         return res.json(zakaz)
                 } catch (e) {
                         next(ApiError.badRequest("Something wrong"))
@@ -28,7 +29,6 @@ class ZakazController {
                         zakaz = await Zakaz.findAndCountAll({where: {price},limit,offset})}
                 else if(name && price){
                         zakaz = await Zakaz.findAndCountAll({where: {name, price},limit,offset})}
-
                 return res.json(zakaz)
         }
 
@@ -43,6 +43,5 @@ class ZakazController {
                 next(ApiError.badRequest("Something wrong"))
         }
         }
-
 }
 module.exports = new ZakazController()
