@@ -1,7 +1,7 @@
 const ApiError = require('../Error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {user, type, userWallet} = require('../models/models')
+const {User, type, userWallet} = require('../models/models')
 
 
 const generateJwt = (id, email, phoneNumber, role) => {
@@ -19,28 +19,27 @@ class UserController{
         if(!email || !password) {
             return next(ApiError.badRequest('Неверный пароль или email'))
         }
-        const chel = await user.findOne({where: {email}})
+        const chel = await User.findOne({where: {email}})
         if (chel) {
             return next(ApiError.badRequest('Этот email уже использует другой челик!'))
         }
         const hashPas = await bcrypt.hash(password, 5)
-        const User = await user.create({email, role, password: hashPas})
-        const wallet = await userWallet.create({Id_user: User.id})
-        const token = generateJwt(User.id, User.email,  User.role)
+        const temp = await User.create({email, role, password: hashPas})
+        const wallet = await userWallet.create({Id_user: temp.id})
+        const token = generateJwt(temp.id, temp.email,  temp.role)
         return res.json({token})
     }
-
     async login(req, res, next){
         const {email, password} = req.body
-        const User = await user.findOne({where: {email}})
-        if (!User) {
+        const temp = await User.findOne({where: {email}})
+        if (!temp) {
             return next(ApiError.internal('Пользователь не найден'))
         }
-        let compPas = bcrypt.compareSync(password, User.password)
+        let compPas = bcrypt.compareSync(password, temp.password)
         if (!compPas) {
             return next(ApiError.internal('Пароль неверный, записывайте пароль на листочке'))
         }
-        const token = generateJwt(User.id, User.email, User.phoneNumber, User.role)
+        const token = generateJwt(temp.id, temp.email, temp.phoneNumber, temp.role)
         return res.json({token})
     }
     async check(req, res) {
