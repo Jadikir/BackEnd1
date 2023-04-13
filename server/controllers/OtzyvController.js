@@ -3,14 +3,18 @@ const ApiError = require('../error/ApiError')
 
 class OtzyvController{
     async create(req,res){
-        const {Soderjanie,idWhom} = req.body
+        const {Soderjanie,WhomId} = req.body
         let UserId = req.user.id
-        const Otz = await Otzyv.create({Soderjanie,UserId,idWhom})
+        const Otz = await Otzyv.create({Soderjanie,UserId,WhomId})
         return res.json(Otz)
     }
     async getAll(req,res) {
-        let {UserId}=req.query
-        const Otz = await  Otzyv.findAll({where:UserId})
+        let {UserId,WhomId}=req.query
+        let Otz
+        if(!UserId&&!WhomId){Otz = await  Otzyv.findAll()}
+        else if (!UserId && WhomId){Otz = await  Otzyv.findAll({where:{WhomId}})}
+        else if((UserId && !WhomId)){Otz = await  Otzyv.findAll({where:{UserId}})}
+        else if((UserId && WhomId)){Otz = await  Otzyv.findAll({where:{UserId,WhomId}})}
         return res.json(Otz)
     }
     async del(req,res,next) {
