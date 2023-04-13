@@ -35,15 +35,15 @@ userWallet.belongsTo(User)
 
 User.hasMany(Zakaz)
 Zakaz.belongsTo(User)
-Zakaz.belongsTo(User,{as:'idWhom'})
+Zakaz.belongsTo(User,{as:'Whom'})
 
 User.hasMany(Chat)
 Chat.belongsTo(User)
-Chat.belongsTo(User,{as:'idWhom'})
+Chat.belongsTo(User,{as:'Whom'})
 
 User.hasMany(Otzyv)
 Otzyv.belongsTo(User)
-Otzyv.belongsTo(User,{as:'idWhom'})
+Otzyv.belongsTo(User,{as:'Whom'})
 
 module.exports = {
     User,
