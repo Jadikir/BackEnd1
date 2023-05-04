@@ -6,7 +6,7 @@ import {
     LOGIN_ROUTE,
     PROFILE_ROUTE,
     REGISTRATION_ROUTE,
-    ZARAZPAGE_ROUTE
+    ZAKAZPAGE_ROUTE
 } from "./utils/consts";
 import Chat from "./pages/Chat";
 import profile from "./pages/Profile";
@@ -43,7 +43,7 @@ export const publicRoutes = [
         Component: Auth
     },
     {
-        path: ZARAZPAGE_ROUTE + '/:id',
+        path: ZAKAZPAGE_ROUTE + '/:id',
         Component: zakazPage
     }
 ]

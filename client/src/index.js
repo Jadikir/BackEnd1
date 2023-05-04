@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <Context.Provider value={{
         user: new UserZakaz(),
-        zakaz: new Zakaziki(),
+        Zakaziki: new Zakaziki(),
     }}>
         <App />
     </Context.Provider>,
