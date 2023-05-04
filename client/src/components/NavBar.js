@@ -5,7 +5,13 @@ import {HOMEPAGE_ROUTE, LOGIN_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import {NavLink} from "react-router-dom";
 
+
+const handleButtonClick = (user) => {
+    user.setIsAuth(false)
+    window.location.reload()
+};
 const NavBar = observer(() => {
+
     const {user} = useContext(Context)
     return (
         <Navbar bg="dark" variant="dark">
@@ -14,7 +20,7 @@ const NavBar = observer(() => {
                 {user.isAuth ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <Button variant={"outline-info"}>Админ Гэй</Button>
-                        <Button variant={"outline-info"} className="ms-2" onClick={() => user.setIsAuth(false)}>Покинуть Капибарию</Button>
+                        <Button variant={"outline-info"} className="ms-2" onClick={() => handleButtonClick(user)}>Покинуть Капибарию</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto" style={{color: 'white'}}>

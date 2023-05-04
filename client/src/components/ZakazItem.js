@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Accordion, Button} from "react-bootstrap";
-import {useNavigate} from 'react-router-dom'
-import {ZAKAZPAGE_ROUTE} from "../utils/consts";
+import {useLocation, useNavigate} from 'react-router-dom'
+import {LOGIN_ROUTE, ZAKAZPAGE_ROUTE} from "../utils/consts";
+import {Context} from "../index";
+
+
 const ZakazItem = ({Zakaziki}) => {
     const navigate = useNavigate()
+    const {user} = useContext(Context)
+    const location = useLocation()
     return (
         <Accordion>
             <Accordion.Item eventKey="0">
@@ -13,8 +18,10 @@ const ZakazItem = ({Zakaziki}) => {
                         Что-то на татарском
                     </div>
                     <div className="ml-auto">
+                        {user.isAuth &&
+                        <Button variant="danger" as="input" type="button" value="ВЫРЕЗАТЬ ТВАРЬ" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>}
                         <Button variant="info" as="input" type="button" value="Нажми если интересно" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
-                        <Button variant="danger" as="input" type="button" value="ВЫРЕЗАТЬ ТВАРЬ" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
+
                     </div>
                 </Accordion.Body>
             </Accordion.Item>
