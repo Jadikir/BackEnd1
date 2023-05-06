@@ -49,7 +49,7 @@ const ZakazPage = () => {
                     <p>Текст о заказе</p>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    {user.isAuth&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {user.isAuth&&!Zakaziki.zakazs[id - 1].status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
                         Взять заказ
                     </Button>}
                     <Modal show={show} onHide={handleClose}>
