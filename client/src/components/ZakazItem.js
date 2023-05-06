@@ -21,7 +21,7 @@ const ZakazItem = ({Zakaziki}) => {
                         Что-то на татарском
                     </div>
                     {(user.isAuth&&
-                        <Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                        <Button variant="danger" variant="outline-danger" onClick={handleShow}className="mx-2" >
                             ВЫРЕЗАТЬ ТВАРЬ
                         </Button>)}
                         <Modal show={show} onHide={handleClose}>
@@ -38,7 +38,7 @@ const ZakazItem = ({Zakaziki}) => {
                                 </Button>
                             </Modal.Footer>
                         </Modal>
-                        <Button className="my-2" variant="info" as="input" type="button" value="Нажми если интересно" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
+                        <Button className="mx-2" variant="info" as="input" type="button" value="Нажми если интересно" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>
