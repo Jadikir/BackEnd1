@@ -26,7 +26,7 @@ const ZakazItem = ({Zakaziki}) => {
                         </Button>)}
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Modal heading</Modal.Title>
+                                <Modal.Title>Подтверждение</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>Этот заказ точно нарушает политику капибар?</Modal.Body>
                             <Modal.Footer>

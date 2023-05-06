@@ -18,14 +18,6 @@ export const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin
-    },
-    {
-        path: PROFILE_ROUTE,
-        Component: profile
-    },
-    {
-        path: CHAT_ROUTE,
-        Component: Chat
     }
 ]
 
@@ -45,5 +37,14 @@ export const publicRoutes = [
     {
         path: ZAKAZPAGE_ROUTE + '/:id',
         Component: zakazPage
+    },
+    {
+        path: PROFILE_ROUTE,
+        Component: profile
+    },
+
+    {
+        path: CHAT_ROUTE,
+        Component: Chat
     }
 ]
