@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "bcrypt": "^5.1.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "react-icons": "^4.8.0",
+    "react-speech-kit": "^3.0.1",
+    "socket.io": "^4.6.1"
   }
 }

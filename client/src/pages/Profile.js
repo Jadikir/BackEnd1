@@ -1,6 +1,8 @@
 import React from 'react';
-import {Col, Container, Image, Row} from "react-bootstrap";
+import {Button, Col, Container, Image, Row} from "react-bootstrap";
 import OtzyvsList from "../components/OtzyvsList";
+import {CHAT_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
+import {Link, NavLink} from "react-router-dom";
 
 const Profile = () => {
     return (
@@ -12,6 +14,9 @@ const Profile = () => {
                 <Col>
                     <Row> <p>Имя пользователя</p></Row>
                     <Row> <p>Почта</p></Row>
+                    <Button variant={"outline-dark"} >
+                        <Link to={CHAT_ROUTE}>Мои сообщения!!!</Link>
+                    </Button>
                 </Col>
             </Row>
             <Row>
