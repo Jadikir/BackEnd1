@@ -4,10 +4,10 @@ import {Button, Container, Image, Nav, Navbar, OverlayTrigger, Tooltip} from "re
 import {HOMEPAGE_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import {NavLink, useNavigate} from "react-router-dom";
-import logo from 'E:/programs/NESonderPapka/BackEnd1/client/src/assets/logo.png';
+import logo from '..//assets/logo.png';
 import * as PropTypes from "prop-types";
-import 'E:/programs/NESonderPapka/BackEnd1/client/src/styles.css';
-import sushka from 'E:/programs/NESonderPapka/BackEnd1/client/src/assets/sushka.jpg';
+import '..//styles.css';
+import sushka from '..//assets/sushka.jpg';
 const States = Object.freeze({
     0: "Админ",
     1: "Пользователь"

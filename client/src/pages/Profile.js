@@ -3,7 +3,7 @@ import {Button, Col, Container, Form, Image, Modal, Row} from "react-bootstrap";
 import OtzyvsList from "../components/OtzyvsList";
 import {CHAT_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {Link, NavLink} from "react-router-dom";
-import ava from 'E:/programs/NESonderPapka/BackEnd1/client/src/assets/ava.jpg';
+import ava from '..//assets/ava.jpg';
 const Profile = () => {
     const [show, setShow] = useState(false);
 
