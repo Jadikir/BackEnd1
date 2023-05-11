@@ -17,7 +17,7 @@ const SorterBar = observer( ({showItemsWithParametr, setShowItemsWithParametr})=
                 className="d-flex justify-content-between align-items-start"
                 action onClick={() => handleShowItemsWithParametr(false)}
             >
-                <div className="fw-bold" > Мои модели</div>
+                <div className="fw-bold" > Мои заказы</div>
                 <Badge bg="primary" pill>
                     {Zakaziki.getItemsWithParametr().length}
                 </Badge>
@@ -27,7 +27,18 @@ const SorterBar = observer( ({showItemsWithParametr, setShowItemsWithParametr})=
                 className="d-flex justify-content-between align-items-start"
                 action onClick={() => handleShowItemsWithParametr(true)}
             >
-                <div className="fw-bold">Все модели</div>
+                <div className="fw-bold">Все заказы</div>
+
+                <Badge bg="primary" pill>
+                    {Zakaziki.zakazs.length}
+                </Badge>
+            </ListGroup.Item>
+            <ListGroup.Item
+                as="li"
+                className="d-flex justify-content-between align-items-start"
+                action onClick={() => handleShowItemsWithParametr(true)}
+            >
+                <div className="fw-bold">Делаются мной</div>
 
                 <Badge bg="primary" pill>
                     {Zakaziki.zakazs.length}

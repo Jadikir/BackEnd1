@@ -22,7 +22,7 @@ const ZakazItem = ({Zakaziki}) => {
                     </div>
                     {(user.isAuth&&
                         <Button variant="danger" variant="outline-danger" onClick={handleShow}className="mx-2" >
-                            ВЫРЕЗАТЬ ТВАРЬ
+                            УНИЧТОЖИТЬ
                         </Button>)}
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>

@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import {Context} from "../index";
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
+import {Button, Container, Image, Nav, Navbar, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {HOMEPAGE_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import {NavLink, useNavigate} from "react-router-dom";
 import logo from 'E:/programs/NESonderPapka/BackEnd1/client/src/assets/logo.png';
 import * as PropTypes from "prop-types";
 import 'E:/programs/NESonderPapka/BackEnd1/client/src/styles.css';
-
+import sushka from 'E:/programs/NESonderPapka/BackEnd1/client/src/assets/sushka.jpg';
 const States = Object.freeze({
     0: "Админ",
     1: "Пользователь"
@@ -40,6 +40,26 @@ const NavBar = observer(() => {
                 </NavLink>
                 {user.isAuth ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
+                        <OverlayTrigger
+                            placement="bottom"
+                            overlay={<Tooltip id="button-tooltip-2">Это ваши деньги</Tooltip>}
+                        >
+                            {({ ref, ...triggerHandler }) => (
+                                <Button
+                                    variant="light"
+                                    {...triggerHandler}
+                                    className="d-inline-flex align-items-center gradient-text"
+                                >
+                                    <Image
+                                        ref={ref}
+                                        roundedCircle
+                                        src={sushka}
+                                        height="30"
+                                    />
+                                    <span className="ms-1">У вас {"50"} сушек</span>
+                                </Button>
+                            )}
+                        </OverlayTrigger>
                         <Button  variant={"info"} className="ms-2" >
                             <NavLink to={PROFILE_ROUTE}>Мой профиль</NavLink>
                         </Button>

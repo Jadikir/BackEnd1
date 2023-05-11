@@ -14,8 +14,11 @@ const Profile = () => {
                 <Col>
                     <Row> <p>Имя пользователя</p></Row>
                     <Row> <p>Почта</p></Row>
-                    <Button variant={"outline-dark"} >
+                    <Button variant={"outline-dark"} style={{ display: "block" } }>
                         <Link to={CHAT_ROUTE}>Мои сообщения!!!</Link>
+                    </Button>
+                    <Button variant={"outline-dark"} className="mt-2" style={{ display: "block" }}>
+                        <Link to="https://youtu.be/dQw4w9WgXcQ">Пополнить кошелек</Link>
                     </Button>
                 </Col>
             </Row>
