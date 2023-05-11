@@ -7,6 +7,7 @@ import {Context} from "../index";
 
 const Homepage = () => {
     const [showItemsWithParametr, setShowItemsWithParametr] = useState(true);
+    const [someOtherCondition,setSomeOtherCondition] = useState(false);
     const [show, setShow] = useState(false);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -35,6 +36,8 @@ const Homepage = () => {
                     <SorterBar
                         setShowItemsWithParametr={setShowItemsWithParametr}
                         showItemsWithParametr={showItemsWithParametr}
+                        setSomeOtherCondition={setSomeOtherCondition}
+                        someOtherCondition={someOtherCondition}
                     />
                     {(user.isAuth&&<Button
                         variant="danger"
@@ -47,7 +50,7 @@ const Homepage = () => {
                     </Button>)}
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Modal heading</Modal.Title>
+                            <Modal.Title>Создание заказа</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form>
@@ -84,18 +87,20 @@ const Homepage = () => {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
-                                Close
+                                ПЕРЕДУМАЛ
                             </Button>
                             <Button variant="primary" onClick={handleSaveChanges} disabled={name.trim() === "" || price.trim() === ""}>
-                                Save Changes
+                                Создать заказ
                             </Button>
                         </Modal.Footer>
                     </Modal>
                 </Col>
                 <Col md={10}>
                     <ZakazList
-                        showItemsWithParametr={showItemsWithParametr}
                         setShowItemsWithParametr={setShowItemsWithParametr}
+                        showItemsWithParametr={showItemsWithParametr}
+                        setSomeOtherCondition={setSomeOtherCondition}
+                        someOtherCondition={someOtherCondition}
                     />
                 </Col>
             </Row>

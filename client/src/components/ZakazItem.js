@@ -3,7 +3,6 @@ import {Accordion, Button,Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import { ZAKAZPAGE_ROUTE} from "../utils/consts";
 import {Context} from "../index";
-import Zakaziki from "../Zakaznai/Zakaziki";
 
 const ZakazItem = ({Zakaziki}) => {
     const navigate = useNavigate()

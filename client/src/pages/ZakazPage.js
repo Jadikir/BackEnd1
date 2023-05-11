@@ -19,12 +19,15 @@ const ZakazPage = () => {
     const { id } = useParams();
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
     const handleClose = () =>setShow(false);
+    const handleClose3 = () =>setShow3(false);
     const Otkrit = () => {
-        handleClose()
+        handleClose3()
         setShow2(true)
     }
     const handleShow = () => setShow(true);
+    const handleShow3 = () => setShow3(true);
     const {user} = useContext(Context)
     const [timeElapsed, setTimeElapsed] = useState(1); // Начальное значение - 1 минута
 
@@ -35,6 +38,7 @@ const ZakazPage = () => {
 
         return () => clearInterval(interval); // Остановка интервала при удалении компонента
     }, []);
+
     return (
         <Container>
             <Row>
@@ -79,16 +83,16 @@ const ZakazPage = () => {
                             </Button>
                         </Modal.Footer>
                     </Modal>
-                    {user.isAuth && Zakaziki.zakazs[id - 1].status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {user.isAuth && Zakaziki.zakazs[id - 1].status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow3}>
                         Сдать заказ
                     </Button>}
-                    <Modal show={show} onHide={handleClose}>
+                    <Modal show={show3} onHide={handleClose3}>
                         <Modal.Header closeButton>
                             <Modal.Title>Подтверждение</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>Вы уверены,что хотите сдать заказ "{Zakaziki.zakazs[id - 1].name}" и гарантируете, что он выполнен</Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
+                            <Button variant="secondary" onClick={handleClose3}>
                                 НЕт, миссклик
                             </Button>
                             <Button variant="primary" onClick={Otkrit}>
@@ -96,7 +100,6 @@ const ZakazPage = () => {
                             </Button>
                         </Modal.Footer>
                     </Modal>
-
                 </Col>
             </Row>
             <Row>

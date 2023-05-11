@@ -4,12 +4,14 @@ import {Context} from "../index";
 import {Col, Row} from "react-bootstrap";
 import ZakazItem from "./ZakazItem";
 
-const ZakazList = observer(({showItemsWithParametr, setShowItemsWithParametr})=>{
+const ZakazList = observer(({showItemsWithParametr,someOtherCondition})=>{
     const{Zakaziki} = useContext(Context)
 
     const zakazsToDisplay = showItemsWithParametr
         ? Zakaziki.zakazs
-        : Zakaziki.getItemsWithParametr();
+        : someOtherCondition
+            ? Zakaziki.getItemsWithParametr()
+            : Zakaziki.getItemsWithCum();
     return(
         <>
             {zakazsToDisplay.map((zakaz) => (
