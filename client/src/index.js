@@ -8,7 +8,6 @@ import Zakaziki from "./Zakaznai/Zakaziki";
 import Otzyviki from "./Zakaznai/Otzyviki";
 
 export const Context = createContext(null)
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <Context.Provider value={{

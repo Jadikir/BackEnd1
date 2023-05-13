@@ -1,13 +1,36 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Card, Container, Form} from "react-bootstrap";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
-import {NavLink, useLocation} from "react-router-dom";
+import {HOMEPAGE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {Context} from "../index";
-
-const Auth = () => {
+import {login, registration} from "../http/userAPI";
+import {observer} from "mobx-react-lite";
+const Auth = observer(() => {
     const {user} = useContext(Context)
     const location = useLocation()
+    const navigation = useNavigate()
     const isLogin = location.pathname === LOGIN_ROUTE
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+    const click = async ()=>{
+        try{let data;
+            if(isLogin)
+            {
+                const data = await login(email,password)
+            }
+            else
+            {
+                const data = await registration(email,password)
+
+            }
+            user.setUser(user)
+            user.setIsAuth(true)
+        navigation(HOMEPAGE_ROUTE)}
+        catch (e)
+        {alert(e.response.data.message)  }
+
+    }
+
     return (
         <Container
             className="d-flex justify-content-center align-items-center"
@@ -19,10 +42,15 @@ const Auth = () => {
                     <Form.Control
                         className="mt-4"
                         placeholder="Ваш email, пожалуйста"
+                        value = {email}
+                        onChange={e=>setEmail(e.target.value)}
                     />
                     <Form.Control
                         className="mt-3"
                         placeholder="Ваш Parol', пожалуйста"
+                        value = {password}
+                        onChange={e=>setPassword(e.target.value)}
+                        type="password"
                     />
                     <Form className="d-flex justify-content-between mt-3 m">
                         {isLogin ?
@@ -36,7 +64,7 @@ const Auth = () => {
                         }
                         <Button
                             variant={"outline-danger"}
-                            onClick={() => user.setIsAuth(true)}
+                            onClick={click}
                         >
                             {isLogin ? 'Вхади!' : 'Стать частью семьи'}
                         </Button>
@@ -45,6 +73,6 @@ const Auth = () => {
             </Card>
         </Container>
     );
-};
+});
 
 export default Auth;

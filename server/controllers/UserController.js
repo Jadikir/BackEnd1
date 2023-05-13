@@ -5,9 +5,9 @@ const sequelize = require('../db')
 const {User, type, userWallet, Otzyv} = require('../models/models')
 
 
-const generateJwt = (id, email, phoneNumber, role) => {
+const generateJwt = (id, email, role) => {
     return jwt.sign(
-        {id, email, phoneNumber, role},
+        {id, email, role},
         process.env.SECRET_KEY,
         {expiresIn: '24h'},
         {}
@@ -40,11 +40,10 @@ class UserController{
         if (!compPas) {
             return next(ApiError.internal('Пароль неверный, записывайте пароль на листочке'))
         }
-        const token = generateJwt(temp.id, temp.email, temp.phoneNumber, temp.role)
+        const token = generateJwt(temp.id, temp.email, temp.role)
         return res.json({token})
     }
     async check(req, res) {
-        res.json({message: "All Right"})
         const token = generateJwt(req.user.id, req.user.email,  req.user.role)
         return res.json({token})
     }

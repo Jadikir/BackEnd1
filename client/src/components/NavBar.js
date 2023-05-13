@@ -8,6 +8,7 @@ import logo from '..//assets/logo.png';
 import * as PropTypes from "prop-types";
 import '..//styles.css';
 import sushka from '..//assets/sushka.jpg';
+
 const States = Object.freeze({
     0: "Админ",
     1: "Пользователь"
@@ -28,6 +29,12 @@ function Raw(props) {
 Raw.propTypes = {children: PropTypes.node};
 const NavBar = observer(() => {
     const navigate = useNavigate()
+        const logOut = ()=>{
+            localStorage.removeItem('token');
+            user.setUser({})
+            user.setIsAuth(false)
+            window.location.reload()
+    }
     const {user} = useContext(Context)
     return (
         <Navbar bg="dark" variant="dark">
@@ -66,7 +73,7 @@ const NavBar = observer(() => {
                         <Button  variant={States2[0].toString()} className="ms-2" disabled style={{ pointerEvents: 'none' }}>
                         {States[0].toString()}
                             </Button>
-                        <Button variant={"outline-info"} className="ms-2" onClick={() => handleButtonClick(user)}>Покинуть Капибарию</Button>
+                        <Button variant={"outline-info"} className="ms-2" onClick={() => logOut()}>Покинуть Капибарию</Button>
                     </Nav>
                     :
                     <Nav className="ml-auto gradient-text" style={{color: 'white'}}>
