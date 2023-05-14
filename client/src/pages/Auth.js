@@ -16,14 +16,16 @@ const Auth = observer(() => {
         try{let data;
             if(isLogin)
             {
-                const data = await login(email,password)
+                data = await login(email,password)
+
             }
             else
             {
-                const data = await registration(email,password)
-
+                data = await registration(email,password)
             }
-            user.setUser(user)
+
+            user.setUser(data)
+
             user.setIsAuth(true)
         navigation(HOMEPAGE_ROUTE)}
         catch (e)

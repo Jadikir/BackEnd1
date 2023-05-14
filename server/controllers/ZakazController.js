@@ -32,16 +32,16 @@ class ZakazController {
                 return res.json(zakaz)
         }
 
-        async del(req,res,next) {
-                try{
-                        await Zakaz.destroy( {
-                                where:{id:this.getAll()}
-                        })
-                        return res.json()
-                        }
-        catch (e){
-                next(ApiError.badRequest("Something wrong"))
-        }
+        async del(req, res, next) {
+                try {
+                        const Id = req.params.id;
+                        await Zakaz.destroy({
+                                where: { id: Id }
+                        });
+                        return res.json('Удалено');
+                } catch (e) {
+                        next(ApiError.badRequest("Something wrong"));
+                }
         }
 }
 module.exports = new ZakazController()

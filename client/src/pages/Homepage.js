@@ -1,16 +1,26 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Modal, Row} from "react-bootstrap";
 import ZakazList from "../components/ZakazList";
 import SorterBar from "../components/SorterBar";
 import {Context} from "../index";
+import {createZakaz, getZakazs} from "../http/ZakazAPI";
 
 
 const Homepage = () => {
+    const{Zakaziki} = useContext(Context);
+
+    useEffect(()=>{
+        getZakazs().then(data => {
+            Zakaziki.zakazs = data.rows;
+        });
+    }, []);
     const [showItemsWithParametr, setShowItemsWithParametr] = useState(true);
     const [someOtherCondition,setSomeOtherCondition] = useState(false);
     const [show, setShow] = useState(false);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const {user} = useContext(Context)
@@ -22,10 +32,11 @@ const Homepage = () => {
         setPrice(event.target.value);
     };
 
-    const handleSaveChanges = () => {
+    const handleSaveChanges = async () => {
         if (name.trim() === "" || price.trim() === "") {
             return;
         }
+        const data = await createZakaz(name, price, description)
         handleClose();
     };
 
@@ -81,7 +92,7 @@ const Homepage = () => {
                                     controlId="exampleForm.ControlTextarea1"
                                 >
                                     <Form.Label>Введите описание</Form.Label>
-                                    <Form.Control as="textarea" rows={3} />
+                                    <Form.Control as="textarea" value={description} onChange={e => setDescription(e.target.value)} rows={3} />
                                 </Form.Group>
                             </Form>
                         </Modal.Body>

@@ -6,12 +6,13 @@ import ZakazItem from "./ZakazItem";
 
 const ZakazList = observer(({showItemsWithParametr,someOtherCondition})=>{
     const{Zakaziki} = useContext(Context)
-
+    const{user} = useContext(Context)
     const zakazsToDisplay = showItemsWithParametr
         ? Zakaziki.zakazs
         : someOtherCondition
-            ? Zakaziki.getItemsWithParametr()
-            : Zakaziki.getItemsWithCum();
+            ? Zakaziki.getItemsWithParametr(user.user.id)
+            : Zakaziki.getItemsWithCum(user.user.id);
+
     return(
         <>
             {zakazsToDisplay.map((zakaz) => (

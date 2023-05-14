@@ -51,8 +51,8 @@ const ZakazPage = () => {
                 <Col xs={3} className="mt-4">
                     <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Здесь отображается статус заказа</Tooltip>}>
       <span className="d-inline-block">
-        <Button  variant={States2[Zakaziki.zakazs[id - 1].status].toString()} disabled style={{ pointerEvents: 'none' }}>
-          {States[Zakaziki.zakazs[id - 1].status].toString()}
+        <Button  variant={States2[Zakaziki.zakazs[id - 1].Status].toString()} disabled style={{ pointerEvents: 'none' }}>
+          {States[Zakaziki.zakazs[id - 1].Status].toString()}
         </Button>
       </span>
                     </OverlayTrigger>
@@ -63,10 +63,10 @@ const ZakazPage = () => {
             </Row>
             <Row>
                 <Col>
-                    <p>Текст о заказе</p>
+                    <p>{Zakaziki.zakazs[id - 1].description}</p>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    {user.isAuth&&!Zakaziki.zakazs[id - 1].status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {user.isAuth&&!Zakaziki.zakazs[id - 1].Status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
                         Взять заказ
                     </Button>}
                     <Modal show={show} onHide={handleClose}>

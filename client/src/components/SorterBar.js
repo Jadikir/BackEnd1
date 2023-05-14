@@ -6,6 +6,7 @@ import {observer} from "mobx-react-lite";
 const SorterBar = observer( ({ setShowItemsWithParametr,setSomeOtherCondition})=> {
     const{Zakaziki} = useContext(Context)
     const{user} = useContext(Context)
+
     const handleShowItemsWithParametr = (value) => {
         setShowItemsWithParametr(value);
         setSomeOtherCondition(true)
@@ -34,7 +35,7 @@ const SorterBar = observer( ({ setShowItemsWithParametr,setSomeOtherCondition})=
                 <div className="fw-bold">Мои заказы</div>
 
                 <Badge bg="primary" pill>
-                    {Zakaziki.getItemsWithParametr().length}
+                    {Zakaziki.getItemsWithParametr(user.user.id).length}
                 </Badge>
             </ListGroup.Item>)}
             {((user.isAuth)&&<ListGroup.Item
@@ -45,7 +46,7 @@ const SorterBar = observer( ({ setShowItemsWithParametr,setSomeOtherCondition})=
                 <div className="fw-bold">Делаются мной</div>
 
                 <Badge bg="primary" pill>
-                    {Zakaziki.getItemsWithCum().length}
+                    {Zakaziki.getItemsWithCum(user.user.id).length}
                 </Badge>
             </ListGroup.Item>)}
         </ListGroup>

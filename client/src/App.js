@@ -13,13 +13,23 @@ const App = observer(() => {
     const[loading,setLoading]=useState(true)
     const authToken = localStorage.getItem('token');
     useEffect(()=>{
-        setTimeout(()=>{
-            check(authToken).then(data=>{
-                user.setUser(data.user);
-                user.setIsAuth(true);
-            }).finally(()=> setLoading(false))
-        },1000)
-    },[])
+        setTimeout(() => {
+            try {
+                check(authToken)
+                    .then(data => {
+                        if (data&&data.user) {
+                            user.setUser(data.user);
+                            user.setIsAuth(true);
+                        } else {
+                            console.error('Данные пользователя не получены');
+                        }
+                    })
+                    .finally(() => setLoading(false))
+            } catch (e) {
+                console.error('Ошибка при вызове функции check:', e);
+            }
+        }, 1000);
+    }, []);
     if (loading){
         return <Spinner animation ={"grow"}></Spinner>
     }

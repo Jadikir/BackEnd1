@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.post('/',authMiddleware, ZakazController.create)
 router.get('/', ZakazController.getAll)
-router.delete('/', ZakazController.del)
+router.delete('/:id', ZakazController.del)
 
 
 module.exports = router

@@ -17,10 +17,7 @@ const States2 = Object.freeze({
     0: "warning",
     1: "success"
 })
-const handleButtonClick = (user) => {
-    user.setIsAuth(false)
-    window.location.reload()
-};
+
 
 function Raw(props) {
     return null;

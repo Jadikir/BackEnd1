@@ -1,8 +1,9 @@
 import React, {useContext, useState} from 'react';
 import {Accordion, Button,Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
-import { ZAKAZPAGE_ROUTE} from "../utils/consts";
+import {HOMEPAGE_ROUTE, ZAKAZPAGE_ROUTE} from "../utils/consts";
 import {Context} from "../index";
+import {deleteZakaz} from "../http/ZakazAPI";
 
 const ZakazItem = ({Zakaziki}) => {
     const navigate = useNavigate()
@@ -10,7 +11,15 @@ const ZakazItem = ({Zakaziki}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const {user} = useContext(Context)
-
+    const handleDelete = async (id) => {
+        try {
+            const data =  await deleteZakaz(id);
+            handleClose(true)
+            return data
+        } catch (e) {
+            alert(e.response.data.message);
+        }
+    };
     return (
         <Accordion>
             <Accordion.Item eventKey="0">
@@ -32,11 +41,11 @@ const ZakazItem = ({Zakaziki}) => {
                                 <Button variant="secondary" onClick={handleClose}>
                                     НЕт, миссклик
                                 </Button>
-                                <Button variant="primary" onClick={handleClose}>
+                                <Button variant="primary" onClick={() => handleDelete(Zakaziki.id)}>
                                     Да,вырезать
                                 </Button>
                             </Modal.Footer>
-                        </Modal>
+                        </Modal>{console.log(Zakaziki.id)}
                         <Button className="mx-2" variant="info" as="input" type="button" value="Нажми если интересно" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
                 </Accordion.Body>
             </Accordion.Item>
