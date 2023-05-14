@@ -42,8 +42,10 @@ const ZakazPage = () => {
     return (
         <Container>
             <Row>
+                {console.log(Zakaziki)}
+                {console.log(Zakaziki.getZakazWithId(id).Status)}
                 <Col className="mt-4">
-                    <h1 style={{ fontSize: "30px" }}>{Zakaziki.zakazs[id - 1].name}</h1>
+                    <h1 style={{ fontSize: "30px" }}>{Zakaziki.getZakazWithId(id).name}</h1>
                     <p style={{ marginTop: "10px", marginBottom: "10px" }}>
                         Автор: Автор+{id}
                     </p>
@@ -51,29 +53,29 @@ const ZakazPage = () => {
                 <Col xs={3} className="mt-4">
                     <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Здесь отображается статус заказа</Tooltip>}>
       <span className="d-inline-block">
-        <Button  variant={States2[Zakaziki.zakazs[id - 1].Status].toString()} disabled style={{ pointerEvents: 'none' }}>
-          {States[Zakaziki.zakazs[id - 1].Status].toString()}
+        <Button  variant={States2[Zakaziki.getZakazWithId(id).Status].toString()} disabled style={{ pointerEvents: 'none' }}>
+          {States[Zakaziki.getZakazWithId(id).Status].toString()}
         </Button>
       </span>
                     </OverlayTrigger>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    <p>Стоимость заказа: {Zakaziki.zakazs[id - 1].price} сушек</p>
+                    <p>Стоимость заказа: {Zakaziki.getZakazWithId(id).price} сушек</p>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <p>{Zakaziki.zakazs[id - 1].description}</p>
+                    <p>{Zakaziki.getZakazWithId(id).description}</p>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    {user.isAuth&&!Zakaziki.zakazs[id - 1].Status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {user.isAuth&&!Zakaziki.getZakazWithId(id).Status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
                         Взять заказ
                     </Button>}
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Подтверждение</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Вы уверены,что хотите выполнить заказ "{Zakaziki.zakazs[id - 1].name}" за "{Zakaziki.zakazs[id - 1].price}"</Modal.Body>
+                        <Modal.Body>Вы уверены,что хотите выполнить заказ "{Zakaziki.getZakazWithId(id).name}" за "{Zakaziki.getZakazWithId(id).price}"</Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>
                                 НЕт, миссклик
@@ -83,14 +85,14 @@ const ZakazPage = () => {
                             </Button>
                         </Modal.Footer>
                     </Modal>
-                    {user.isAuth && Zakaziki.zakazs[id - 1].status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow3}>
+                    {user.isAuth && Zakaziki.getZakazWithId(id).Status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow3}>
                         Сдать заказ
                     </Button>}
                     <Modal show={show3} onHide={handleClose3}>
                         <Modal.Header closeButton>
                             <Modal.Title>Подтверждение</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Вы уверены,что хотите сдать заказ "{Zakaziki.zakazs[id - 1].name}" и гарантируете, что он выполнен</Modal.Body>
+                        <Modal.Body>Вы уверены,что хотите сдать заказ "{Zakaziki.getZakazWithId(id).name}" и гарантируете, что он выполнен</Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose3}>
                                 НЕт, миссклик

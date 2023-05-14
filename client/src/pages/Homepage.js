@@ -8,7 +8,6 @@ import {createZakaz, getZakazs} from "../http/ZakazAPI";
 
 const Homepage = () => {
     const{Zakaziki} = useContext(Context);
-
     useEffect(()=>{
         getZakazs().then(data => {
             Zakaziki.zakazs = data.rows;
@@ -37,6 +36,7 @@ const Homepage = () => {
             return;
         }
         const data = await createZakaz(name, price, description)
+        window.location.reload()
         handleClose();
     };
 

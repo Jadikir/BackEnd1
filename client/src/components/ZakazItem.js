@@ -3,7 +3,7 @@ import {Accordion, Button,Modal} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import {HOMEPAGE_ROUTE, ZAKAZPAGE_ROUTE} from "../utils/consts";
 import {Context} from "../index";
-import {deleteZakaz} from "../http/ZakazAPI";
+import {deleteZakaz, getZakazs} from "../http/ZakazAPI";
 
 const ZakazItem = ({Zakaziki}) => {
     const navigate = useNavigate()
@@ -15,6 +15,7 @@ const ZakazItem = ({Zakaziki}) => {
         try {
             const data =  await deleteZakaz(id);
             handleClose(true)
+            window.location.reload()
             return data
         } catch (e) {
             alert(e.response.data.message);
@@ -22,6 +23,7 @@ const ZakazItem = ({Zakaziki}) => {
     };
     return (
         <Accordion>
+            {console.log(Zakaziki.name) }
             <Accordion.Item eventKey="0">
                 <Accordion.Header>{Zakaziki.name}</Accordion.Header>
                 <Accordion.Body className="d-flex align-items-center">
@@ -45,7 +47,7 @@ const ZakazItem = ({Zakaziki}) => {
                                     Да,вырезать
                                 </Button>
                             </Modal.Footer>
-                        </Modal>{console.log(Zakaziki.id)}
+                        </Modal>
                         <Button className="mx-2" variant="info" as="input" type="button" value="Нажми если интересно" onClick={() => navigate(ZAKAZPAGE_ROUTE + '/' + Zakaziki.id)}/>
                 </Accordion.Body>
             </Accordion.Item>
