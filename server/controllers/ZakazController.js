@@ -1,5 +1,6 @@
 const {Zakaz} = require('../models/models')
 const  ApiError = require('../error/ApiError')
+const {where} = require("sequelize");
 
 class ZakazController {
 
@@ -30,6 +31,25 @@ class ZakazController {
                 else if(name && price){
                         zakaz = await Zakaz.findAndCountAll({where: {name, price},limit,offset})}
                 return res.json(zakaz)
+        }
+        async updateStatus(req, res, next) {
+                try {
+                        const { id } = req.params;
+                        const { status } = req.body;
+
+                        const zakaz = await Zakaz.findByPk(id);
+                        if (!zakaz) {
+                                return next(ApiError.internal(`Заказ с id=${id} не найден`));
+                        }
+
+                        console.log(status);
+                        zakaz.Status = status;
+                        await zakaz.save();
+                        return res.json(zakaz);
+                } catch (e) {
+                        console.error(e);
+                        next(ApiError.internal(`Не удалось обновить заказ с id=${id}`));
+                }
         }
 
         async del(req, res, next) {

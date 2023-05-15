@@ -7,12 +7,7 @@ import {createZakaz, getZakazs} from "../http/ZakazAPI";
 
 
 const Homepage = () => {
-    const{Zakaziki} = useContext(Context);
-    useEffect(()=>{
-        getZakazs().then(data => {
-            Zakaziki.zakazs = data.rows;
-        });
-    }, []);
+
     const [showItemsWithParametr, setShowItemsWithParametr] = useState(true);
     const [someOtherCondition,setSomeOtherCondition] = useState(false);
     const [show, setShow] = useState(false);

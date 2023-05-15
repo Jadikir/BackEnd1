@@ -2,6 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Container, Row, Col, Button, Modal, OverlayTrigger, Tooltip, Toast} from 'react-bootstrap';
 import {Context} from "../index";
 import {useParams} from "react-router-dom";
+import {login, registration} from "../http/userAPI";
+import {HOMEPAGE_ROUTE} from "../utils/consts";
+import {updateZakaz} from "../http/ZakazAPI";
 
 
 const States = Object.freeze({
@@ -22,9 +25,20 @@ const ZakazPage = () => {
     const [show3, setShow3] = useState(false);
     const handleClose = () =>setShow(false);
     const handleClose3 = () =>setShow3(false);
-    const Otkrit = () => {
+    const Otkrit = async (id,status) => {
+        click(id, status)
         handleClose3()
         setShow2(true)
+        window.location.reload()
+    }
+    const click = async (id,status)=>{
+        try{
+            const data = await updateZakaz(id,status)
+            window.location.reload()
+            handleClose()
+        }
+        catch (e)
+        {alert(e.response.data.message)  }
     }
     const handleShow = () => setShow(true);
     const handleShow3 = () => setShow3(true);
@@ -35,7 +49,6 @@ const ZakazPage = () => {
         const interval = setInterval(() => {
             setTimeElapsed(prevTime => prevTime + 1);
         }, 60000); // Обновляем время каждую минуту
-
         return () => clearInterval(interval); // Остановка интервала при удалении компонента
     }, []);
 
@@ -68,7 +81,8 @@ const ZakazPage = () => {
                     <p>{Zakaziki.getZakazWithId(id).description}</p>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    {user.isAuth&&!Zakaziki.getZakazWithId(id).Status&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {console.log(user.isAuth,Zakaziki.getZakazWithId(id).Status)}
+                    {user.isAuth&&Zakaziki.getZakazWithId(id).Status==0&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
                         Взять заказ
                     </Button>}
                     <Modal show={show} onHide={handleClose}>
@@ -80,7 +94,7 @@ const ZakazPage = () => {
                             <Button variant="secondary" onClick={handleClose}>
                                 НЕт, миссклик
                             </Button>
-                            <Button variant="primary" onClick={handleClose}>
+                            <Button variant="primary" onClick={()=>click(id,1)}>
                                 Да,готов
                             </Button>
                         </Modal.Footer>
@@ -97,7 +111,7 @@ const ZakazPage = () => {
                             <Button variant="secondary" onClick={handleClose3}>
                                 НЕт, миссклик
                             </Button>
-                            <Button variant="primary" onClick={Otkrit}>
+                            <Button variant="primary" onClick={()=>Otkrit(id,2)}>
                                 Да,готов
                             </Button>
                         </Modal.Footer>

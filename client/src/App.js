@@ -7,23 +7,29 @@ import {observer} from "mobx-react-lite";
 import {check} from "./http/userAPI";
 import {Context} from "./index";
 import {Spinner} from "react-bootstrap";
+import {getZakazs} from "./http/ZakazAPI";
 
 const App = observer(() => {
     const {user} = useContext(Context)
+    const {Zakaziki} = useContext(Context)
     const[loading,setLoading]=useState(true)
     const authToken = localStorage.getItem('token');
+    console.log(authToken)
     useEffect(()=>{
         setTimeout(() => {
             try {
                 check(authToken)
                     .then(data => {
-                        if (data&&data.user) {
-                            user.setUser(data.user);
+                        if (data) {
+                            user.setUser(data);
                             user.setIsAuth(true);
                         } else {
                             console.error('Данные пользователя не получены');
                         }
                     })
+                getZakazs().then(data => {
+                    Zakaziki.zakazs = data.rows;
+                })
                     .finally(() => setLoading(false))
             } catch (e) {
                 console.error('Ошибка при вызове функции check:', e);
