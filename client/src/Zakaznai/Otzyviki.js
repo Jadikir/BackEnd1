@@ -3,11 +3,6 @@ import {makeAutoObservable} from "mobx";
 export default class Otzyviki{
     constructor() {
         this._otzyvs = [
-            {id: 1, description: "1"},
-            {id: 2, description: "2"},
-            {id: 3, description: "3"},
-            {id: 4, description: "4"},
-            {id: 5, description: "5"}
         ]
         makeAutoObservable(this)
     }
@@ -19,6 +14,9 @@ export default class Otzyviki{
     get otzyvs(){
         return this._otzyvs
     }
-
+    getUserotzyvs(id){
+        const otzyv = this._otzyvs.find(item => item.WhomId === parseInt(id));
+        return otzyv ? [otzyv] : [];
+    }
 
 }

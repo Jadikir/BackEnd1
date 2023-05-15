@@ -4,17 +4,20 @@ import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar";
 import {observer} from "mobx-react-lite";
-import {check} from "./http/userAPI";
+import {check, getAllUsers} from "./http/userAPI";
 import {Context} from "./index";
 import {Spinner} from "react-bootstrap";
 import {getZakazs} from "./http/ZakazAPI";
+import UserZakaz from "./Zakaznai/UserZakaz";
+import {getOtzyvs} from "./http/OtzyvAPI";
+
 
 const App = observer(() => {
     const {user} = useContext(Context)
     const {Zakaziki} = useContext(Context)
+    const {Otzyviki} = useContext(Context)
     const[loading,setLoading]=useState(true)
     const authToken = localStorage.getItem('token');
-    console.log(authToken)
     useEffect(()=>{
         setTimeout(() => {
             try {
@@ -29,6 +32,12 @@ const App = observer(() => {
                     })
                 getZakazs().then(data => {
                     Zakaziki.zakazs = data.rows;
+                })
+                getAllUsers().then(data => {
+                    user.setUsers(data);
+                })
+                getOtzyvs().then(data => {
+                    Otzyviki.otzyvs = data.rows;
                 })
                     .finally(() => setLoading(false))
             } catch (e) {

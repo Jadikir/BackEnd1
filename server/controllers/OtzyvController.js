@@ -11,7 +11,7 @@ class OtzyvController{
     async getAll(req,res) {
         let {UserId,WhomId}=req.query
         let Otz
-        if(!UserId&&!WhomId){Otz = await  Otzyv.findAll()}
+        if(!UserId&&!WhomId){Otz = await  Otzyv.findAndCountAll()}
         else if (!UserId && WhomId){Otz = await  Otzyv.findAll({where:{WhomId}})}
         else if((UserId && !WhomId)){Otz = await  Otzyv.findAll({where:{UserId}})}
         else if((UserId && WhomId)){Otz = await  Otzyv.findAll({where:{UserId,WhomId}})}

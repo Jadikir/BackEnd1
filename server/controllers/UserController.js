@@ -2,7 +2,7 @@ const ApiError = require('../Error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sequelize = require('../db')
-const {User, type, userWallet, Otzyv} = require('../models/models')
+const {User, type, userWallet, Otzyv, Zakaz} = require('../models/models')
 
 
 const generateJwt = (id, email, role) => {
@@ -47,6 +47,11 @@ class UserController{
         const token = generateJwt(req.user.id, req.user.email,  req.user.role)
         return res.json({token})
     }
+    async getAll(req, res) {
+        const user = await User.findAll()
+    return res.json(user)
+    }
+
     async GetUserInfo(req, res){
         let {id} = req.query
         const t = await sequelize.transaction()
@@ -64,6 +69,7 @@ class UserController{
             await t.rollback()
         }
     }
+
 }
 
 module.exports = new UserController()

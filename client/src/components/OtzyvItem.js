@@ -10,7 +10,7 @@ const OtzyvItem = ({Otzyviki}) => {
                     <img src={logo} alt="3D Hydrant Logo" height="50" style={{ borderRadius: "50%", marginRight: "20px",marginLeft: "-10px" }} />
                     <div style={{ marginBottom: "5px"}}>
                         <Row>ИМЯ ФАМИЛИЯ</Row>
-                        <Row>{Otzyviki.description}</Row>
+                        <Row>{Otzyviki.Soderjanie}</Row>
                     </div>
                 </Col>
             </Row>

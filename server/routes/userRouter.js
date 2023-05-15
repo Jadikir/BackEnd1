@@ -7,6 +7,7 @@ router.post('/registration', userController.registration)
 router.post('/login', userController.login)
 router.get('/auth', authMiddleware, userController.check)
 router.get('/otzyvs', authMiddleware, userController.GetUserInfo)
+router.get('/', userController.getAll)
 
 
 

@@ -34,7 +34,9 @@ const NavBar = observer(() => {
     }
     const {user} = useContext(Context)
     return (
+
         <Navbar bg="dark" variant="dark">
+            {console.log(user.user.id)}
             <Container>
                 <NavLink style={{display: 'flex', alignItems: 'center', color: 'white', textDecoration: 'none'}} to={HOMEPAGE_ROUTE}>
                     <img src={logo} alt="3D Hydrant Logo" height="40" className="d-inline-block align-top mx-2" style={{borderRadius: "50%"}} />
@@ -65,7 +67,7 @@ const NavBar = observer(() => {
                             )}
                         </OverlayTrigger>
                         <Button  variant={"info"} className="ms-2" >
-                            <NavLink to={PROFILE_ROUTE}>Мой профиль</NavLink>
+                            <NavLink to={PROFILE_ROUTE+'/'+user.user.id}>Мой профиль</NavLink>
                         </Button>
                         <Button  variant={States2[0].toString()} className="ms-2" disabled style={{ pointerEvents: 'none' }}>
                         {States[0].toString()}

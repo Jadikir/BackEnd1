@@ -4,6 +4,7 @@ export default class UserZakaz{
     constructor() {
         this._isAuth = false
         this._user = {}
+        this._users = []
         makeAutoObservable(this)
     }
 
@@ -21,5 +22,14 @@ export default class UserZakaz{
 
     get user(){
         return this._user
+    }
+    get users(){
+        return this._users
+    }
+    setUsers(users) {
+        this._users = users
+    }
+    getUsersWithId(id) {
+        return this._users.find(item => item.id === parseInt(id));
     }
 }

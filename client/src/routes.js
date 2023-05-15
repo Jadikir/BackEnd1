@@ -39,7 +39,7 @@ export const publicRoutes = [
         Component: zakazPage
     },
     {
-        path: PROFILE_ROUTE,
+        path: PROFILE_ROUTE + '/:id',
         Component: profile
     },
 
