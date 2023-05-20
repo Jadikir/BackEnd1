@@ -18,4 +18,8 @@ export const updateZakaz = async (id, status) => {
         const { data } = await $authHost.post(`api/zakaz/${id}/update`, { status });
         return data;
     }
+export const updateWhomZakaz = async (id, WhomId) => {
+        const { data } = await $authHost.post(`api/zakaz/${id}/update/Whom`, { WhomId });
+        return data;
+    }
 ;

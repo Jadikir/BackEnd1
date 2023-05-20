@@ -4,6 +4,7 @@ export default class UserZakaz{
     constructor() {
         this._isAuth = false
         this._user = {}
+        this._wallet = {}
         this._users = []
         makeAutoObservable(this)
     }
@@ -22,6 +23,12 @@ export default class UserZakaz{
 
     get user(){
         return this._user
+    }
+    get wallet(){
+        return this._wallet
+    }
+    setWallet(wallet) {
+        this._wallet = wallet
     }
     get users(){
         return this._users

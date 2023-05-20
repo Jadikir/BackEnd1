@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Container, Row, Col, Button, Modal, OverlayTrigger, Tooltip, Toast} from 'react-bootstrap';
 import {Context} from "../index";
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {login, registration} from "../http/userAPI";
-import {HOMEPAGE_ROUTE} from "../utils/consts";
-import {updateZakaz} from "../http/ZakazAPI";
+import {HOMEPAGE_ROUTE, PROFILE_ROUTE} from "../utils/consts";
+import {updateWhomZakaz, updateZakaz} from "../http/ZakazAPI";
+import {MakeTrasaction} from "../http/walletApi";
 
 
 const States = Object.freeze({
@@ -25,15 +26,17 @@ const ZakazPage = () => {
     const [show3, setShow3] = useState(false);
     const handleClose = () =>setShow(false);
     const handleClose3 = () =>setShow3(false);
-    const Otkrit = async (id,status) => {
+    const Otkrit = async (id,status,summa,WhomId) => {
         click(id, status)
+        const data = await MakeTrasaction(id,summa,WhomId)
         handleClose3()
         setShow2(true)
         window.location.reload()
     }
-    const click = async (id,status)=>{
+    const click = async (id,status,WhomId)=>{
         try{
             const data = await updateZakaz(id,status)
+            const data2 = await updateWhomZakaz(id,WhomId)
             window.location.reload()
             handleClose()
         }
@@ -55,13 +58,12 @@ const ZakazPage = () => {
     return (
         <Container>
             <Row>
-                {console.log(Zakaziki)}
-                {console.log(Zakaziki.getZakazWithId(id).Status)}
+
                 <Col className="mt-4">
-                    <h1 style={{ fontSize: "30px" }}>{Zakaziki.getZakazWithId(id).name}</h1>
-                    <p style={{ marginTop: "10px", marginBottom: "10px" }}>
-                        Автор: Автор+{id}
-                    </p>
+                    <h1 style={{ fontSize: "30px" }}>{Zakaziki.getZakazWithId(id).name} </h1>
+                    <NavLink to={PROFILE_ROUTE + "/"+ user.getUsersWithId(Zakaziki.getZakazWithId(id).UserId).id }><p style={{ marginTop: "10px", marginBottom: "10px" }}>
+                        Автор: {user.getUsersWithId(Zakaziki.getZakazWithId(id).UserId).name}
+                    </p></NavLink>
                 </Col>
                 <Col xs={3} className="mt-4">
                     <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Здесь отображается статус заказа</Tooltip>}>
@@ -81,8 +83,7 @@ const ZakazPage = () => {
                     <p>{Zakaziki.getZakazWithId(id).description}</p>
                 </Col>
                 <Col xs={3} className="mt-4">
-                    {console.log(user.isAuth,Zakaziki.getZakazWithId(id).Status)}
-                    {user.isAuth&&Zakaziki.getZakazWithId(id).Status==0&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
+                    {!(user.user.id===Zakaziki.getZakazWithId(id).UserId)&&user.isAuth&&Zakaziki.getZakazWithId(id).Status==0&&<Button variant="danger" variant="outline-danger" onClick={handleShow}>
                         Взять заказ
                     </Button>}
                     <Modal show={show} onHide={handleClose}>
@@ -94,12 +95,12 @@ const ZakazPage = () => {
                             <Button variant="secondary" onClick={handleClose}>
                                 НЕт, миссклик
                             </Button>
-                            <Button variant="primary" onClick={()=>click(id,1)}>
+                            <Button variant="primary" onClick={()=>click(id,1,user.user.id)}>
                                 Да,готов
                             </Button>
                         </Modal.Footer>
                     </Modal>
-                    {user.isAuth && Zakaziki.getZakazWithId(id).Status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow3}>
+                    {(user.user.id===Zakaziki.getZakazWithId(id).WhomId)&&user.isAuth && Zakaziki.getZakazWithId(id).Status == 1 && <Button variant="danger" variant="outline-danger" onClick={handleShow3}>
                         Сдать заказ
                     </Button>}
                     <Modal show={show3} onHide={handleClose3}>
@@ -111,7 +112,7 @@ const ZakazPage = () => {
                             <Button variant="secondary" onClick={handleClose3}>
                                 НЕт, миссклик
                             </Button>
-                            <Button variant="primary" onClick={()=>Otkrit(id,2)}>
+                            <Button variant="primary" onClick={()=>Otkrit(id,2,parseInt(Zakaziki.getZakazWithId(id).price),user.getUsersWithId(Zakaziki.getZakazWithId(id).UserId).id)}>
                                 Да,готов
                             </Button>
                         </Modal.Footer>

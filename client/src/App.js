@@ -8,8 +8,8 @@ import {check, getAllUsers} from "./http/userAPI";
 import {Context} from "./index";
 import {Spinner} from "react-bootstrap";
 import {getZakazs} from "./http/ZakazAPI";
-import UserZakaz from "./Zakaznai/UserZakaz";
 import {getOtzyvs} from "./http/OtzyvAPI";
+import {getWalletMoney} from "./http/walletApi";
 
 
 const App = observer(() => {
@@ -18,7 +18,7 @@ const App = observer(() => {
     const {Otzyviki} = useContext(Context)
     const[loading,setLoading]=useState(true)
     const authToken = localStorage.getItem('token');
-    useEffect(()=>{
+    useEffect(() => {
         setTimeout(() => {
             try {
                 check(authToken)
@@ -26,25 +26,30 @@ const App = observer(() => {
                         if (data) {
                             user.setUser(data);
                             user.setIsAuth(true);
+                            getWalletMoney().then(walletData => {
+                                user.setWallet(walletData);
+                            });
                         } else {
                             console.error('Данные пользователя не получены');
                         }
                     })
-                getZakazs().then(data => {
-                    Zakaziki.zakazs = data.rows;
-                })
-                getAllUsers().then(data => {
-                    user.setUsers(data);
-                })
-                getOtzyvs().then(data => {
-                    Otzyviki.otzyvs = data.rows;
-                })
-                    .finally(() => setLoading(false))
+                    .then(() => {
+                        getZakazs().then(data => {
+                            Zakaziki.zakazs = data.rows;
+                        });
+                        getAllUsers().then(data => {
+                            user.setUsers(data);
+                        });
+                        getOtzyvs().then(data => {
+                            Otzyviki.otzyvs = data.rows;
+                        });
+                    })
+                    .finally(() => setLoading(false));
             } catch (e) {
                 console.error('Ошибка при вызове функции check:', e);
             }
         }, 1000);
-    }, []);
+    }, [user, Zakaziki, Otzyviki, user.wallet, user.setWallet]); // Добавлено user.setWallet в зависимости
     if (loading){
         return <Spinner animation ={"grow"}></Spinner>
     }

@@ -51,6 +51,26 @@ class ZakazController {
                         next(ApiError.internal(`Не удалось обновить заказ с id=${id}`));
                 }
         }
+        async updateWhomId(req, res, next) {
+                try {
+                        const { id } = req.params;
+                        const {WhomId} = req.body;
+
+                        const zakaz = await Zakaz.findByPk(id);
+                        if (!zakaz) {
+                                return next(ApiError.internal(`Заказ с id=${id} не найден`));
+                        }
+
+                        zakaz.WhomId = WhomId;
+                        await zakaz.save();
+                        return res.json(zakaz);
+
+                } catch (e) {
+                        console.error(e);
+                        next(ApiError.internal(`Не удалось обновить заказ с id=${id}`));
+                }
+
+        }
 
         async del(req, res, next) {
                 try {

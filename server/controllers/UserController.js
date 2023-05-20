@@ -5,9 +5,9 @@ const sequelize = require('../db')
 const {User, type, userWallet, Otzyv, Zakaz} = require('../models/models')
 
 
-const generateJwt = (id, email, role) => {
+const generateJwt = (id, email,name, role) => {
     return jwt.sign(
-        {id, email, role},
+        {id, email,name, role},
         process.env.SECRET_KEY,
         {expiresIn: '24h'},
         {}
@@ -16,7 +16,7 @@ const generateJwt = (id, email, role) => {
 
 class UserController{
     async registration(req, res, next){
-        const {email, password, role} = req.body
+        const {email, password,name, role} = req.body
         if(!email || !password) {
             return next(ApiError.badRequest('Неверный пароль или email'))
         }
@@ -25,9 +25,9 @@ class UserController{
             return next(ApiError.badRequest('Этот email уже использует другой челик!'))
         }
         const hashPas = await bcrypt.hash(password, 5)
-        const temp = await User.create({email, role, password: hashPas})
+        const temp = await User.create({email, role,name, password: hashPas})
         const wallet = await userWallet.create({UserId: temp.id})
-        const token = generateJwt(temp.id, temp.email,  temp.role)
+        const token = generateJwt(temp.id, temp.email,temp.name , temp.role)
         return res.json({token})
     }
     async login(req, res, next){
@@ -40,17 +40,19 @@ class UserController{
         if (!compPas) {
             return next(ApiError.internal('Пароль неверный, записывайте пароль на листочке'))
         }
-        const token = generateJwt(temp.id, temp.email, temp.role)
+        const token = generateJwt(temp.id, temp.email,temp.name, temp.role)
         return res.json({token})
     }
     async check(req, res) {
-        const token = generateJwt(req.user.id, req.user.email,  req.user.role)
+        const token = generateJwt(req.user.id, req.user.email,req.user.name,  req.user.role)
         return res.json({token})
     }
     async getAll(req, res) {
         const user = await User.findAll()
     return res.json(user)
     }
+
+
 
     async GetUserInfo(req, res){
         let {id} = req.query
@@ -69,6 +71,42 @@ class UserController{
             await t.rollback()
         }
     }
+    async getMoney(req, res, next){
+        let UserId = req.user.id
+        const wallet = await userWallet.findOne({where: {UserId}})
+
+        return res.json(wallet)
+    }
+    async Popolnenie(req, res, next){
+        try{
+        let UserId = req.user.id
+        const{summa} = req.body
+        const wallet = await userWallet.findOne({where: {UserId}})
+        let temp = wallet.Sushki
+        wallet.Sushki = Number(summa)+Number(temp);
+        await wallet.save();
+        return res.json(wallet);}
+        catch(e){return next(ApiError.internal('ПРОИЗОШЛО что-то ужасное'))}
+    }
+    async Transaction(req, res, next){
+        try{
+            let UserId = req.user.id
+            const{summa,WhomId} = req.body
+            const wallet = await userWallet.findOne({where: {UserId}})
+            const wallet2 =  await userWallet.findOne({UserId:{WhomId}})
+            let temp = wallet.Sushki
+            let temp2= wallet2.Sushki
+            console.log(temp,temp2,summa)
+            wallet.Sushki = Number(summa)+Number(temp);
+            wallet2.Sushki = Number(temp2)-Number(summa);
+            console.log(wallet.Sushki,wallet2.Sushki)
+            await wallet.save();
+            await wallet2.save();
+            return res.json(wallet);}
+        catch(e){return next(ApiError.internal('ПРОИЗОШЛО что-то ужасное'))}
+    }
+
+
 
 }
 

@@ -6,7 +6,6 @@ import OtzyvItem from "./OtzyvItem";
 
 const OtzyvsList = observer(({Id})=>{
     const{Otzyviki} = useContext(Context)
-    console.log(Otzyviki.getUserotzyvs(Id)) // значение переменной Id будет выведено в консоль
 
     return(
         <>

@@ -23,17 +23,17 @@ const ZakazItem = ({Zakaziki}) => {
     };
     return (
         <Accordion>
-            {console.log(Zakaziki.name) }
             <Accordion.Item eventKey="0">
                 <Accordion.Header>{Zakaziki.name}</Accordion.Header>
                 <Accordion.Body className="d-flex align-items-center">
                     <div className="flex-grow-1">
                         Что-то на татарском
                     </div>
-                    {(user.isAuth&&
-                        <Button variant="danger" variant="outline-danger" onClick={handleShow}className="mx-2" >
+                    {!!parseInt(user.user.role) && user.isAuth && (
+                        <Button variant="danger" variant="outline-danger" onClick={handleShow} className="mx-2">
                             УНИЧТОЖИТЬ
-                        </Button>)}
+                        </Button>
+                    )}
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Подтверждение</Modal.Title>

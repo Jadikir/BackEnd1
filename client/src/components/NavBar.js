@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Context} from "../index";
 import {Button, Container, Image, Nav, Navbar, OverlayTrigger, Tooltip} from "react-bootstrap";
 import {HOMEPAGE_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE} from "../utils/consts";
@@ -8,14 +8,15 @@ import logo from '..//assets/logo.png';
 import * as PropTypes from "prop-types";
 import '..//styles.css';
 import sushka from '..//assets/sushka.jpg';
+import {getWalletMoney} from "../http/walletApi";
 
 const States = Object.freeze({
-    0: "Админ",
-    1: "Пользователь"
+    0:"Пользователь",
+    1:"Админ"
 })
 const States2 = Object.freeze({
-    0: "warning",
-    1: "success"
+    0: "success",
+    1: "warning"
 })
 
 
@@ -32,11 +33,11 @@ const NavBar = observer(() => {
             user.setIsAuth(false)
             window.location.reload()
     }
-    const {user} = useContext(Context)
-    return (
 
+    const {user} = useContext(Context)
+
+    return (
         <Navbar bg="dark" variant="dark">
-            {console.log(user.user.id)}
             <Container>
                 <NavLink style={{display: 'flex', alignItems: 'center', color: 'white', textDecoration: 'none'}} to={HOMEPAGE_ROUTE}>
                     <img src={logo} alt="3D Hydrant Logo" height="40" className="d-inline-block align-top mx-2" style={{borderRadius: "50%"}} />
@@ -44,7 +45,7 @@ const NavBar = observer(() => {
                         3D Hydrant
                         </span>
                 </NavLink>
-                {user.isAuth ?
+                {(user.isAuth&&user.wallet) ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <OverlayTrigger
                             placement="bottom"
@@ -62,15 +63,15 @@ const NavBar = observer(() => {
                                         src={sushka}
                                         height="30"
                                     />
-                                    <span className="ms-1">У вас {"50"} сушек</span>
+                                    <span className="ms-1">У вас {user.wallet.Sushki} сушек</span>
                                 </Button>
                             )}
                         </OverlayTrigger>
                         <Button  variant={"info"} className="ms-2" >
                             <NavLink to={PROFILE_ROUTE+'/'+user.user.id}>Мой профиль</NavLink>
                         </Button>
-                        <Button  variant={States2[0].toString()} className="ms-2" disabled style={{ pointerEvents: 'none' }}>
-                        {States[0].toString()}
+                        <Button  variant={States2[user.user.role].toString()} className="ms-2" disabled style={{ pointerEvents: 'none' }}>
+                        {States[user.user.role].toString()}
                             </Button>
                         <Button variant={"outline-info"} className="ms-2" onClick={() => logOut()}>Покинуть Капибарию</Button>
                     </Nav>
