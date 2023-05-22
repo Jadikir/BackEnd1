@@ -31,6 +31,7 @@ const NavBar = observer(() => {
             localStorage.removeItem('token');
             user.setUser({})
             user.setIsAuth(false)
+            navigate(HOMEPAGE_ROUTE)
             window.location.reload()
     }
 

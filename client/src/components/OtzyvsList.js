@@ -6,12 +6,12 @@ import OtzyvItem from "./OtzyvItem";
 
 const OtzyvsList = observer(({Id})=>{
     const{Otzyviki} = useContext(Context)
-
+    console.log(Otzyviki.getUserotzyvs(Id))
     return(
         <>
-            {(Otzyviki.getUserotzyvs(Id))&& (Object.values(Otzyviki.getUserotzyvs(Id)).map(Otzyviki=>
-                <Col key ={Otzyviki.id} md={0} className="">
-                    <OtzyvItem Otzyviki={Otzyviki}/>
+            {Otzyviki.getUserotzyvs(Id)?.map(otzyv => (
+                <Col key={otzyv.id} md={0} className="">
+                    <OtzyvItem Otzyviki={otzyv} />
                 </Col>
             ))}
         </>

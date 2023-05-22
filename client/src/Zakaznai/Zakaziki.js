@@ -8,7 +8,7 @@ export default class Zakaziki{
         makeAutoObservable(this)
     }
 
-    set zakazs(zakazs){
+    setZakazs(zakazs){
         this._zakazs = zakazs
     }
 

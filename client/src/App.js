@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import React, {useContext, useEffect, useState} from 'react';
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
@@ -19,37 +19,96 @@ const App = observer(() => {
     const[loading,setLoading]=useState(true)
     const authToken = localStorage.getItem('token');
     useEffect(() => {
-        setTimeout(() => {
+        const intervalId = setInterval(() => {
+            try {
+                getZakazs().then(data => {
+                    Zakaziki.setZakazs(data.rows);
+                }).finally(() => setLoading(false));
+            } catch (e) {
+                console.error('Ошибка при вызове функции check:', e);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+        ;
+    }, []);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            try {
+                console.log(user.users)
+                getAllUsers().then(data => {
+                    user.setUsers(data);
+                }).finally(() => setLoading(false));
+            } catch (e) {
+                console.error('Ошибка при вызове функции check:', e);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+        ;
+    }, []);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            try {
+                getOtzyvs().then(data => {
+                    Otzyviki.setOtzyvs(data.rows);
+                }).finally(() => setLoading(false));
+            } catch (e) {
+                console.error('Ошибка при вызове функции check:', e);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+        ;
+    }, []);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
             try {
                 check(authToken)
                     .then(data => {
                         if (data) {
                             user.setUser(data);
                             user.setIsAuth(true);
+                        } else {
+                            console.error('Данные пользователя не получены');
+                        }
+                    });
+            } catch (e) {
+                console.error('Ошибка при вызове функции check:', e);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+       ;
+    }, []);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            try {
+                check(authToken)
+                    .then(data => {
+                        if (data) {
                             getWalletMoney().then(walletData => {
                                 user.setWallet(walletData);
                             });
                         } else {
                             console.error('Данные пользователя не получены');
                         }
-                    })
-                    .then(() => {
-                        getZakazs().then(data => {
-                            Zakaziki.zakazs = data.rows;
-                        });
-                        getAllUsers().then(data => {
-                            user.setUsers(data);
-                        });
-                        getOtzyvs().then(data => {
-                            Otzyviki.otzyvs = data.rows;
-                        });
-                    })
-                    .finally(() => setLoading(false));
+                    });
             } catch (e) {
                 console.error('Ошибка при вызове функции check:', e);
             }
         }, 1000);
-    }, [user, Zakaziki, Otzyviki, user.wallet, user.setWallet]); // Добавлено user.setWallet в зависимости
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
     if (loading){
         return <Spinner animation ={"grow"}></Spinner>
     }

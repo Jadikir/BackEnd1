@@ -11,5 +11,6 @@ router.get('/', userController.getAll)
 router.get('/wallet',authMiddleware, userController.getMoney)
 router.post('/wallet:id/popolnenie',authMiddleware, userController.Popolnenie)
 router.post('/wallet:id/transaction',authMiddleware, userController.Transaction)
+router.post('/photo',authMiddleware, userController.UpdatePhoto)
 
 module.exports = router

@@ -7,16 +7,16 @@ export default class Otzyviki{
         makeAutoObservable(this)
     }
 
-    set otzyvs(otzyvs){
-        this._otzyvs = otzyvs
+    setOtzyvs(otzyvs) {
+        this._otzyvs = otzyvs;
     }
 
     get otzyvs(){
         return this._otzyvs
     }
-    getUserotzyvs(id){
-        const otzyv = this._otzyvs.find(item => item.WhomId === parseInt(id));
-        return otzyv ? [otzyv] : [];
+    getUserotzyvs(id) {
+        const otzyvs = this._otzyvs.filter(item => item.WhomId === parseInt(id));
+        return otzyvs;
     }
 
 }

@@ -33,3 +33,18 @@ export const check = async () => {
         }
     }
 }
+export const ChangePhoto = async (Id, photo) => {
+    const formData = new FormData();
+    formData.append('Id', Id);
+    formData.append('photo', photo);
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    };
+
+    const { data } = await $authHost.post('api/user/photo', formData, config);
+    return data;
+
+};

@@ -31,13 +31,11 @@ const ZakazPage = () => {
         const data = await MakeTrasaction(id,summa,WhomId)
         handleClose3()
         setShow2(true)
-        window.location.reload()
     }
     const click = async (id,status,WhomId)=>{
         try{
             const data = await updateZakaz(id,status)
             const data2 = await updateWhomZakaz(id,WhomId)
-            window.location.reload()
             handleClose()
         }
         catch (e)

@@ -1,12 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Image, Modal, Row} from "react-bootstrap";
 import OtzyvsList from "../components/OtzyvsList";
 import {CHAT_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {Link, NavLink, useParams} from "react-router-dom";
 import ava from '..//assets/ava.jpg';
-import {createOtzyv} from "../http/OtzyvAPI";
+import {createOtzyv, getOtzyvs} from "../http/OtzyvAPI";
 import {Context} from "../index";
-import {updateMoneybyId} from "../http/walletApi";
+import {getWalletMoney, updateMoneybyId} from "../http/walletApi";
+import {ChangePhoto, check, getAllUsers} from "../http/userAPI";
 
 const Profile = () => {
     const [show, setShow] = useState(false);
@@ -14,37 +15,54 @@ const Profile = () => {
     const {user} = useContext(Context)
     const [soderjanie, setSoderjanie] = useState('');
     const [summa, setSumma] = useState('');
+    const [photo, setPhoto] = useState(null);
     const { id } = useParams();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+    const [callCount, setCallCount] = useState(0);
     const handleClick = async (id,summa)=>{
         const data = updateMoneybyId(id,summa)
         handleClose2()
-        window.location.reload()
     }
     const click = async (Soderjanie, WhomId)=>{
         try{
             const data = await createOtzyv(Soderjanie, WhomId)
-            window.location.reload()
             handleClose()
         }
         catch (e)
         {alert(e.response.data.message)  }
     }
+    const handleFileSelect = async (event) => {
+         setPhoto(event.target.files[0])
+    };
+    const savePhoto =async (id)=>
+    {
+        try {
+            console.log("skfdjskjdflkjsljfd")
+        const response = await ChangePhoto(id, photo);
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+    }
     const handleSummaChange = (e) => {
         const value = e.target.value;
         setSumma(value);
         setIsButtonDisabled(value === '' || value < 0);
-    };
+    }
     return (
         <Container className="mt-4">
             <Row>
-                <Col >
+                {(!user.getUsersWithId(id).photo)&& <Col >
                     <img width={300} height={300} src={ava} style={{borderRadius: "20%"}} />
-                </Col>
+                </Col>}
+                {(user.getUsersWithId(id).photo)&& <Col >
+                    <img width={300} height={300} src= {`http://localhost:5000/${user.getUsersWithId(id).photo}`} style={{borderRadius: "20%"}} />
+                    </Col>}
                 <Col>
                     <Row> <p>{user.getUsersWithId(id).name}</p></Row>
                     <Row> <p>{user.getUsersWithId(id).email}</p></Row>
@@ -90,6 +108,14 @@ const Profile = () => {
                 </Col>
             </Row>
             <Row> <Col className="mt-4 ms-5">
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileSelect}
+                />
+                <Button variant="primary"onClick={() =>savePhoto(user.user.id)} >
+                    Поменять фото
+                </Button>
                 <Button variant="primary"onClick={handleShow} >
                     Оставить отзыв
                 </Button>

@@ -31,7 +31,6 @@ const Homepage = () => {
             return;
         }
         const data = await createZakaz(name, price, description)
-        window.location.reload()
         handleClose();
     };
 
@@ -45,6 +44,7 @@ const Homepage = () => {
                         setSomeOtherCondition={setSomeOtherCondition}
                         someOtherCondition={someOtherCondition}
                     />
+                    {console.log(user)}
                     {(user.isAuth&&<Button
                         variant="danger"
                         variant="outline-danger"

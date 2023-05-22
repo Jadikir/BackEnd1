@@ -2,7 +2,11 @@ const ApiError = require('../Error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sequelize = require('../db')
+const uuid = require('uuid')
+const path = require('path')
+const fs = require('fs');
 const {User, type, userWallet, Otzyv, Zakaz} = require('../models/models')
+
 
 
 const generateJwt = (id, email,name, role) => {
@@ -95,7 +99,7 @@ class UserController{
             const wallet = await userWallet.findOne({where: {UserId}})
             const wallet2 =  await userWallet.findOne({UserId:{WhomId}})
             let temp = wallet.Sushki
-            let temp2= wallet2.Sushki
+            let temp2 = wallet2.Sushki
             console.log(temp,temp2,summa)
             wallet.Sushki = Number(summa)+Number(temp);
             wallet2.Sushki = Number(temp2)-Number(summa);
@@ -104,6 +108,34 @@ class UserController{
             await wallet2.save();
             return res.json(wallet);}
         catch(e){return next(ApiError.internal('ПРОИЗОШЛО что-то ужасное'))}
+    }
+    async UpdatePhoto(req, res, next) {
+        console.log("s11111111")
+        try {
+            console.log("s1111111122")
+            const{Id} = req.body
+            console.log(Id)
+            let photo = req.files.photo
+            console.log(photo)
+            console.log(Id,photo,"hui")
+            let Maxim = await User.findOne({where:{id:Id}})
+            if(Maxim.photo){
+                fs.unlink(`../server/static/${Maxim.photo}`,(err) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+            })}
+                let filename = uuid.v4() + ".jpg"
+                await photo.mv(path.resolve(__dirname, '..', 'static', filename))
+                Maxim.photo = filename
+                await Maxim.save()
+                return res.json(Maxim)
+            }
+         catch (e) {
+            next(ApiError.badRequest("Something wrong"))
+        }
     }
 
 
