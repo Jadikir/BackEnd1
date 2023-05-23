@@ -17,19 +17,8 @@ class ZakazController {
         }
 
         async getAll(req, res) {
-                let {name,price,limit,page}=req.query
-                page = page||1
-                limit = limit||9
-                let offset = page * limit - limit
                 let zakaz
-                if(!name && !price){
-                        zakaz = await Zakaz.findAndCountAll({limit,offset})}
-                else if(name && !price){
-                        zakaz = await Zakaz.findAndCountAll({where: {name},limit,offset})}
-                else if(!name && price){
-                        zakaz = await Zakaz.findAndCountAll({where: {price},limit,offset})}
-                else if(name && price){
-                        zakaz = await Zakaz.findAndCountAll({where: {name, price},limit,offset})}
+                        zakaz = await Zakaz.findAndCountAll()
                 return res.json(zakaz)
         }
         async updateStatus(req, res, next) {

@@ -39,4 +39,11 @@ export default class UserZakaz{
     getUsersWithId(id) {
         return this._users.find(item => item.id === parseInt(id));
     }
+    setPhoto2(photo,id) {
+        const user = this._users.find(item => item.id === parseInt(id));
+        if (user) {
+            user.photo = photo;
+            this._users = [...this._users]; // Создание нового массива, чтобы обновить ссылку на объект
+        }
+    }
 }

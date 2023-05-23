@@ -8,6 +8,7 @@ import {createOtzyv, getOtzyvs} from "../http/OtzyvAPI";
 import {Context} from "../index";
 import {getWalletMoney, updateMoneybyId} from "../http/walletApi";
 import {ChangePhoto, check, getAllUsers} from "../http/userAPI";
+import UserPhoto from "../components/UserPhoto";
 
 const Profile = () => {
     const [show, setShow] = useState(false);
@@ -41,8 +42,9 @@ const Profile = () => {
     const savePhoto =async (id)=>
     {
         try {
-            console.log("skfdjskjdflkjsljfd")
-        const response = await ChangePhoto(id, photo);
+            console.log(user.getUsersWithId(id)?.photo)
+            const response = await ChangePhoto(id, photo);
+            user.setPhoto2(response,id)
     }
     catch (error) {
         console.log(error);
@@ -57,13 +59,14 @@ const Profile = () => {
     return (
         <Container className="mt-4">
             <Row>
-                {(!user.getUsersWithId(id).photo)&& <Col >
-                    <img width={300} height={300} src={ava} style={{borderRadius: "20%"}} />
-                </Col>}
-                {(user.getUsersWithId(id).photo)&& <Col >
-                    <img width={300} height={300} src= {`http://localhost:5000/${user.getUsersWithId(id).photo}`} style={{borderRadius: "20%"}} />
-                    </Col>}
-                {<Col>
+                <UserPhoto
+                    photo={user.getUsersWithId(id)?.photo}
+                    fallbackSrc={ava}
+                    width={300}
+                    height={300}
+                    style={{ borderRadius: '20%' }}
+                />
+                {(id==user.user.id)&&(user.isAuth)&&<Col>
                     <Row> <p>{user.getUsersWithId(id).name}</p></Row>
                     <Row> <p>{user.getUsersWithId(id).email}</p></Row>
                     {<Button variant={"outline-dark"} className="mt-2" onClick={handleShow2} style={{ display: "block" }}>
@@ -104,16 +107,16 @@ const Profile = () => {
                     </Modal>
                 </Col>}
             </Row>
-            <Row> <Col className="mt-4 ms-5">
+            {(id==user.user.id)&&(user.isAuth)&&<Row> <Col className="mt-4 ms-5">
                 <input
                     type="file"
                     accept="image/*"
                     onChange={handleFileSelect}
                 />
-                <Button variant="primary"onClick={() =>savePhoto(user.user.id)} >
+                <Button variant="primary" className="mx-3" onClick={() =>savePhoto(user.user.id)} >
                     Поменять фото
                 </Button>
-                <Button variant="primary"onClick={handleShow} >
+                <Button variant="primary" className="mx-3" onClick={handleShow} >
                     Оставить отзыв
                 </Button>
                 <Modal show={show} onHide={handleClose}>
@@ -145,7 +148,7 @@ const Profile = () => {
                 </Modal>
             </Col>
 
-            </Row>
+            </Row>}
             <Row>
                 <Col className="mt-2">
                     <OtzyvsList Id={id} />

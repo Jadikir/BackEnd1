@@ -131,7 +131,7 @@ class UserController{
                 await photo.mv(path.resolve(__dirname, '..', 'static', filename))
                 Maxim.photo = filename
                 await Maxim.save()
-                return res.json(Maxim)
+                return res.json(Maxim.photo)
             }
          catch (e) {
             next(ApiError.badRequest("Something wrong"))

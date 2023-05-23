@@ -21,84 +21,31 @@ const App = observer(() => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             try {
-                getZakazs().then(data => {
-                    Zakaziki.setZakazs(data.rows);
-                }).finally(() => setLoading(false));
-            } catch (e) {
-                console.error('Ошибка при вызове функции check:', e);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
-        ;
-    }, []);
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            try {
-                console.log(user.users)
-                getAllUsers().then(data => {
-                    user.setUsers(data);
-                }).finally(() => setLoading(false));
-            } catch (e) {
-                console.error('Ошибка при вызове функции check:', e);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
-        ;
-    }, []);
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            try {
-                getOtzyvs().then(data => {
-                    Otzyviki.setOtzyvs(data.rows);
-                }).finally(() => setLoading(false));
-            } catch (e) {
-                console.error('Ошибка при вызове функции check:', e);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
-        ;
-    }, []);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            try {
-                check(authToken)
-                    .then(data => {
+                Promise.all([
+                    getZakazs(),
+                    getAllUsers(),
+                    getOtzyvs(),
+                    check(authToken),
+                    check(authToken).then(data => {
                         if (data) {
-                            user.setUser(data);
-                            user.setIsAuth(true);
-                        } else {
-                            console.error('Данные пользователя не получены');
-                        }
-                    });
-            } catch (e) {
-                console.error('Ошибка при вызове функции check:', e);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
-       ;
-    }, []);
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            try {
-                check(authToken)
-                    .then(data => {
-                        if (data) {
-                            getWalletMoney().then(walletData => {
+                            return getWalletMoney().then(walletData => {
                                 user.setWallet(walletData);
                             });
                         } else {
                             console.error('Данные пользователя не получены');
                         }
-                    });
+                    })
+                ]).then(([zakazs, users, otzyvs, userData]) => {
+                    Zakaziki.setZakazs(zakazs.rows);
+                    user.setUsers(users);
+                    Otzyviki.setOtzyvs(otzyvs.rows);
+                    if (userData) {
+                        user.setUser(userData);
+                        user.setIsAuth(true);
+                    } else {
+                        console.error('Данные пользователя не получены');
+                    }
+                }).finally(() => setLoading(false));
             } catch (e) {
                 console.error('Ошибка при вызове функции check:', e);
             }
@@ -108,6 +55,10 @@ const App = observer(() => {
             clearInterval(intervalId);
         };
     }, []);
+
+    if (loading) {
+        return <Spinner animation="grow" />;
+    }
 
     if (loading){
         return <Spinner animation ={"grow"}></Spinner>
