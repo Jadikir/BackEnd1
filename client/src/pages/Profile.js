@@ -63,14 +63,11 @@ const Profile = () => {
                 {(user.getUsersWithId(id).photo)&& <Col >
                     <img width={300} height={300} src= {`http://localhost:5000/${user.getUsersWithId(id).photo}`} style={{borderRadius: "20%"}} />
                     </Col>}
-                <Col>
+                {<Col>
                     <Row> <p>{user.getUsersWithId(id).name}</p></Row>
                     <Row> <p>{user.getUsersWithId(id).email}</p></Row>
-                    <Button variant={"outline-dark"} style={{ display: "block" } }>
-                        <Link to={CHAT_ROUTE}>Мои сообщения!!!</Link>
-                    </Button>
-                    <Button variant={"outline-dark"} className="mt-2" onClick={handleShow2} style={{ display: "block" }}>
-                     Полнить счет сушками</Button>
+                    {<Button variant={"outline-dark"} className="mt-2" onClick={handleShow2} style={{ display: "block" }}>
+                     Полнить счет сушками</Button>}
                     <Modal show={show2} onHide={handleClose2}>
                         <Modal.Header closeButton>
                             <Modal.Title>Пополнение</Modal.Title>
@@ -105,7 +102,7 @@ const Profile = () => {
                             </Button>
                         </Modal.Footer>
                     </Modal>
-                </Col>
+                </Col>}
             </Row>
             <Row> <Col className="mt-4 ms-5">
                 <input
